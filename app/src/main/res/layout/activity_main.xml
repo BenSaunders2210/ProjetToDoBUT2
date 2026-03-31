@@ -52,20 +52,6 @@
 
         <!-- BOUTON + -->
 
-        <TextView
-            android:id="@+id/noActivityText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="84dp"
-            android:text="no activity"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/topNav" />
-
         <Button
             android:id="@+id/fab"
             android:layout_width="70dp"
@@ -110,30 +96,48 @@
                 android:text="Urgent" />
         </LinearLayout>
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:alpha="0.10"
-            android:background="@drawable/circle_background"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNav"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topNav" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/no_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="23dp">
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:alpha="0.50"
-            android:background="@drawable/circle_shadow"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNav"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.463"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.523" />
+            <View
+                android:id="@+id/deco_rond_rose"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:alpha="0.50"
+                android:background="@drawable/circle_shadow"
+                tools:layout_editor_absoluteX="121dp"
+                tools:layout_editor_absoluteY="275dp" />
+
+            <TextView
+                android:id="@+id/noActivityText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="no activity"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="150dp"
+                tools:layout_editor_absoluteY="140dp" />
+
+            <View
+                android:id="@+id/deco_rond_gris"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:alpha="0.10"
+                android:background="@drawable/circle_background"
+                tools:layout_editor_absoluteX="131dp"
+                tools:layout_editor_absoluteY="291dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ListView
+        android:id="@+id/task_list"
+        android:layout_width="367dp"
+        android:layout_height="588dp"
+        app:layout_anchor="@+id/constraintLayout2"
+        app:layout_anchorGravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

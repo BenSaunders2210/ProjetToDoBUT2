@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,20 +38,20 @@ public class TaskListActivity extends Activity {
         Adapter adapter = new Adapter(this, tasks);
 
         //TODO : Ajout de la liste des tâches dans la ListView + enlever commentaire quand le layout existe.
-        ListView list = /*(ListView) findViewById(R.id.task_list)*/ null;
-
+        ListView list = (ListView) findViewById(R.id.task_list);
+        ConstraintLayout noTasks = (ConstraintLayout) findViewById(R.id.no_tasks);
+        list.setEmptyView(noTasks);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Task selectedItem = (Task) adapterView.getItemAtPosition(position);
-
                 Toast.makeText(TaskListActivity.this,selectedItem.getTitle(),Toast.LENGTH_SHORT).show();
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.constraintLayout2), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
