@@ -43,4 +43,8 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <string name="task_date_debut">Début : %1$s</string>
+    <string name="task_date_fin">Fin : %1$s</string>
+    <string name="task_severity">Sévérité : %1$s</string>
 </resources>

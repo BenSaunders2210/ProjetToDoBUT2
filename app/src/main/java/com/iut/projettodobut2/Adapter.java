@@ -3,11 +3,14 @@ package com.iut.projettodobut2;
 
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -45,26 +48,55 @@ public class Adapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup parent) {
+
         View view;
+
         if(convertView == null){
-            // TODO : Enlever commentaire quand le layout existe.
-            view = /*(View) inflater.inflate(R.layout.task_list_item, parent, false);*/ null;
-        }else{
-            view = (View) convertView;
+            view = inflater.inflate(R.layout.task_list_item, parent, false);
+        } else {
+            view = convertView;
         }
 
-        // TODO : creation des tâches + adapter pour un Task + enlever commentaire quand le layout existe
-/*        TextView name = (TextView) view.findViewById(R.id.movieItemTitle);
-        TextView author = (TextView) view.findViewById(R.id.movieItemAuthor);
-        TextView length = (TextView) view.findViewById(R.id.movieItemLength);
-        ImageView image = (ImageView) view.findViewById(R.id.movieItemImage);*/
+        TextView title = view.findViewById(R.id.task_title);
+        TextView description = view.findViewById(R.id.task_description);
+        TextView dateDebut = view.findViewById(R.id.task_date_debut);
+        TextView dateFin = view.findViewById(R.id.task_date_fin);
+        TextView severity = view.findViewById(R.id.task_severity);
+        LinearLayout details = view.findViewById(R.id.task_details);
+        LinearLayout container = view.findViewById(R.id.task_item_container);
 
-        Task currentMovie = listTasks.get(i);
+        Task currentTask = listTasks.get(i);
 
-/*        name.setText(currentMovie.getTitle());
-        author.setText("Réalisateur: " + currentMovie.getAuthor());
-        length.setText("Durée: " + currentMovie.getLength() + " min");
-        image.setImageResource(currentMovie.getPosterPath());*/
+        title.setText(currentTask.getTitle());
+        description.setText(currentTask.getDescription());
+        dateDebut.setText(context.getString(R.string.task_date_debut, currentTask.getDateDebut().toString()));
+        dateFin.setText(context.getString(R.string.task_date_fin, currentTask.getDateFin().toString()));
+        severity.setText(context.getString(R.string.task_severity, currentTask.getSeverity().toString()));
+
+        // reset état
+        details.setVisibility(View.GONE);
+
+        view.setOnClickListener(v -> {
+            if(details.getVisibility() == View.GONE){
+                details.setVisibility(View.VISIBLE);
+            } else {
+                details.setVisibility(View.GONE);
+            }
+        });
+
+        GradientDrawable bg = (GradientDrawable) container.getBackground();
+
+        switch(currentTask.getSeverity()){
+            case LOW:
+                bg.setColor(Color.parseColor("#cdb4db"));
+                break;
+            case MEDIUM:
+                bg.setColor(Color.parseColor("#ffc8dd"));
+                break;
+            case HIGH:
+                bg.setColor(Color.parseColor("#ffafcc"));
+                break;
+        }
 
         return view;
     }
