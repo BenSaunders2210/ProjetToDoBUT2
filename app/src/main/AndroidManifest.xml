@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetToDoBUT2">
         <activity
-            android:name=".MainActivity"
+            android:name=".TaskListActivity"
+
             android:exported="true"
             android:theme="@style/Theme.ProjetToDoBUT2">
             <intent-filter>

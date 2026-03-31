@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,8 +26,8 @@ public class Adapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
 
-    public Adapter(Context context, List<Task> listMovies ) {
-        this.listTasks = listMovies;
+    public Adapter(Context context, List<Task> listTasks ) {
+        this.listTasks = listTasks;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
@@ -66,6 +67,8 @@ public class Adapter extends BaseAdapter {
         LinearLayout container = view.findViewById(R.id.task_item_container);
 
         Task currentTask = listTasks.get(i);
+
+        System.out.println("List : "+listTasks);
 
         title.setText(currentTask.getTitle());
         description.setText(currentTask.getDescription());
