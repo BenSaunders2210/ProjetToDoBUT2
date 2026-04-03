@@ -56,9 +56,9 @@ public class TaskListActivity extends Activity {
         btnUrgent = findViewById(R.id.btn_filter_high);
 
         // Données de test initiales
-        tasks.add(new Task("Réviser Android", "Pratiquer les Intents", Severity.HIGH, LocalDate.now(), LocalDate.now().plusDays(2), new String[]{"Ecole", "Dev"}));
+   /*     tasks.add(new Task("Réviser Android", "Pratiquer les Intents", Severity.HIGH, LocalDate.now(), LocalDate.now().plusDays(2), new String[]{"Ecole", "Dev"}));
         tasks.add(new Task("Courses", "Acheter du café", Severity.LOW, LocalDate.now(), LocalDate.now().plusDays(1), new String[]{"Perso"}));
-
+*/
         // Listeners sévérité
         btnFaible.setOnClickListener(v -> toggleSeverityFilter(Severity.LOW, btnFaible));
         btnMoyen.setOnClickListener(v -> toggleSeverityFilter(Severity.MEDIUM, btnMoyen));
