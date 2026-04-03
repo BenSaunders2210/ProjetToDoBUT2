@@ -47,4 +47,10 @@
     <string name="task_date_debut">Début : %1$s</string>
     <string name="task_date_fin">Fin : %1$s</string>
     <string name="task_severity">Sévérité : %1$s</string>
+
+    <string-array name="severite_array">
+        <item>Faible</item>
+        <item>Moyen</item>
+        <item>Urgent</item>
+    </string-array>
 </resources>
