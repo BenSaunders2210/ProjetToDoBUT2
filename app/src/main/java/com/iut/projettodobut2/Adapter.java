@@ -17,18 +17,36 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Adapter de la ListView des tâches de l'utilisateur.
+ *
+ * @author Saunders Benjamin, Maillard Jeremie
+ */
 public class Adapter extends BaseAdapter {
 
+    /**
+     * Interface interne pour l'action de swipe.
+     */
     public interface SwipeActionListener {
         void onDelete(int position);
         void onEdit(int position);
     }
 
+    /**
+     * La liste des tâches saisies par l'utilisateur.
+     */
     private List<Task> listTasks;
+
     private Context context;
     private LayoutInflater inflater;
+    /**
+     * Les tâches avec les description visibles.
+     */
     private Set<Integer> openItems = new HashSet<>();
     private Set<Integer> expandedItems = new HashSet<>();
+    /**
+     * Attends pour l'action de l'utilisater de swipe.
+     */
     private SwipeActionListener listener;
 
     public Adapter(Context context, List<Task> listTasks, SwipeActionListener listener) {
@@ -42,16 +60,29 @@ public class Adapter extends BaseAdapter {
     @Override public int getCount() { return listTasks.size(); }
     @Override public long getItemId(int i) { return i; }
 
+    /**
+     * Ouverture de la description de la tâche.
+     * @param position la position de la tâche a ouvrir.
+     */
     public void openItem(int position) {
         openItems.add(position);
         notifyDataSetChanged();
     }
 
+    /**
+     * Fermeture de la description de la tâche.
+     * @param position la position de la tâche a fermer.
+     */
     public void closeItem(int position) {
         openItems.remove((Integer) position);
         notifyDataSetChanged();
     }
 
+    /**
+     * Ouverture ou fermerture de la description des tâches.
+     * @param position la position dont doit ouvrir la description.
+     * @return true si c'est ouvert, false sinon.
+     */
     public boolean isOpen(int position) {
         return openItems.contains(position);
     }
@@ -78,16 +109,16 @@ public class Adapter extends BaseAdapter {
 
         Task currentTask = listTasks.get(i);
 
-        title.setText(currentTask.getTitle());
+        title.setText(currentTask.getTitre());
         description.setText(currentTask.getDescription());
         dateDebut.setText(context.getString(R.string.task_date_debut, currentTask.getDateDebut().toString()));
         dateFin.setText(context.getString(R.string.task_date_fin, currentTask.getDateFin().toString()));
-        severity.setText(context.getString(R.string.task_severity, currentTask.getSeverity().toString()));
+        severity.setText(context.getString(R.string.task_severity, currentTask.getSeverite().toString()));
 
         // Couleurs selon la sévérité
         int badgeColor;
         int cardColor;
-        switch (currentTask.getSeverity()) {
+        switch (currentTask.getSeverite()) {
             case LOW:
                 badgeColor = Color.parseColor("#66BB6A");
                 cardColor  = Color.parseColor("#F1F8E9");
@@ -168,6 +199,11 @@ public class Adapter extends BaseAdapter {
         return view;
     }
 
+    /**
+     * Conversion de dp en pixels.
+     * @param dp la taille à convertir.
+     * @return la conversion de la taille.
+     */
     private float dpToPx(int dp) {
         return dp * context.getResources().getDisplayMetrics().density;
     }

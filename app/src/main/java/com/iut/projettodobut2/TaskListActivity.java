@@ -22,22 +22,49 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Controller de la page d'accueil.
+ *
+ * @author Saunders Benjamin, Maillard Jeremie
+ */
 public class TaskListActivity extends Activity {
 
     private static final int REQUEST_CREATE_TASK = 1;
     private static final int REQUEST_EDIT_TASK = 2;
 
+
+    /**
+     * La liste des tâches à afficher.
+     */
     private ArrayList<Task> tasks = new ArrayList<>();
+    /**
+     * La liste des tâches sous filtre.
+     */
     private ArrayList<Task> filteredTasks = new ArrayList<>();
+    /**
+     * L'Adapter de la ListView des tâches.
+     */
     private Adapter adapter;
+    /**
+     * La ListView des tâches.
+     */
     private ListView list;
+    /**
+     * La liste des tags qu'utilise les tâches saisies.
+     */
     private LinearLayout tagsContainer;
 
     private Set<Severity> activeFilters = EnumSet.noneOf(Severity.class);
     private Set<String> activeTagFilters = new HashSet<>();
 
+    /**
+     * Les boutons utilisés pour filtrer par sévérité.
+     */
     private Button btnFaible, btnMoyen, btnUrgent;
     private float touchStartX, touchStartY;
+    /**
+     * La pourcentage du geste de swipe avant d'activer l'event de swipe.
+     */
     private static final int SWIPE_THRESHOLD = 80;
 
     @Override
@@ -78,9 +105,9 @@ public class TaskListActivity extends Activity {
                 Task t = filteredTasks.get(pos);
                 Intent intent = new Intent(TaskListActivity.this, TaskEditActivity.class);
                 intent.putExtra("task_index", tasks.indexOf(t));
-                intent.putExtra("task_title", t.getTitle());
+                intent.putExtra("task_title", t.getTitre());
                 intent.putExtra("task_description", t.getDescription());
-                intent.putExtra("task_severity", t.getSeverity().name());
+                intent.putExtra("task_severity", t.getSeverite().name());
                 intent.putExtra("task_date_fin", t.getDateFin().toString());
                 intent.putExtra("task_tags", t.getTags());
                 startActivityForResult(intent, REQUEST_EDIT_TASK);
@@ -98,10 +125,13 @@ public class TaskListActivity extends Activity {
         });
     }
 
+    /**
+     * Application des filtres.
+     */
     private void applyFilters() {
         filteredTasks.clear();
         for (Task task : tasks) {
-            boolean severityMatch = activeFilters.isEmpty() || activeFilters.contains(task.getSeverity());
+            boolean severityMatch = activeFilters.isEmpty() || activeFilters.contains(task.getSeverite());
             boolean tagMatch = activeTagFilters.isEmpty();
             if (!tagMatch && task.getTags() != null) {
                 for (String tag : task.getTags()) {
@@ -114,6 +144,9 @@ public class TaskListActivity extends Activity {
         if (adapter != null) adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Mis a jour de la liste des tags.
+     */
     private void updateTagList() {
         tagsContainer.removeAllViews();
         Set<String> allUniqueTags = new HashSet<>();
@@ -149,6 +182,11 @@ public class TaskListActivity extends Activity {
         }
     }
 
+    /**
+     * Filtre des sévérités.
+     * @param s la sévérité
+     * @param b le bouton à appliquer.
+     */
     private void toggleSeverityFilter(Severity s, Button b) {
         if (activeFilters.contains(s)) activeFilters.remove(s);
         else activeFilters.add(s);
@@ -174,13 +212,19 @@ public class TaskListActivity extends Activity {
                 int idx = data.getIntExtra("task_index", -1);
                 if (idx != -1) {
                     Task t = tasks.get(idx);
-                    t.setTitle(title); t.setDescription(desc); t.setSeverity(sev); t.setDateFin(dFin); t.setTags(tags);
+                    t.setTitre(title); t.setDescription(desc); t.setSeverite(sev); t.setDateFin(dFin); t.setTags(tags);
                 }
             }
             applyFilters();
         }
     }
 
+    /**
+     * Mis a jour des couleurs des boutons.
+     * @param btn le bouton a mettre la couleur.
+     * @param active si le bouton est active(en couleur) ou pas(gris)
+     * @param color la couleur à donner au bouton activé.
+     */
     private void updateButtonState(Button btn, boolean active, String color) {
         GradientDrawable bg = new GradientDrawable();
         bg.setShape(GradientDrawable.RECTANGLE);
@@ -190,9 +234,13 @@ public class TaskListActivity extends Activity {
         btn.setBackground(bg);
     }
 
+    /**
+     * Conversion de dp en pixels.
+     * @param dp la taille à convertir.
+     * @return la conversion de la taille.
+     */
     private float dpToPx(int dp) { return dp * getResources().getDisplayMetrics().density; }
 
-    // --- Garder ta gestion du swipe (dispatchTouchEvent) à l'identique ---
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) { touchStartX = event.getX(); touchStartY = event.getY(); }
@@ -209,6 +257,12 @@ public class TaskListActivity extends Activity {
         return super.dispatchTouchEvent(event);
     }
 
+    /**
+     * Récupération des coordonées du point.
+     * @param x coordonée X.
+     * @param y coordonée Y.
+     * @return la position.
+     */
     private int getPositionForPoint(int x, int y) {
         int[] loc = new int[2]; list.getLocationOnScreen(loc);
         int localY = y - loc[1];

@@ -8,8 +8,19 @@ import android.widget.*;
 import java.time.LocalDate;
 import java.util.Calendar;
 
+/**
+ * Controller de la page d'édition.
+ *
+ * @author Saunders Benjamin, Maillard Jeremie
+ */
 public class TaskEditActivity extends Activity {
+    /**
+     * La date selectionnée.
+     */
     private LocalDate selectedDate = null;
+    /**
+     * L'indice de la tâche.
+     */
     private int taskIndex;
 
     @Override

@@ -18,6 +18,8 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 /**
+ * Controller de la page création.
+ *
  * @author Saunders Benjamin, Maillard Jeremie
  */
 public class TaskCreateActivity extends Activity {
@@ -101,9 +103,9 @@ public class TaskCreateActivity extends Activity {
             Task newTask = new Task(titre, description, severity, LocalDate.now(), selectedDate, tags);
 
             Intent result = new Intent();
-            result.putExtra("task_title",       newTask.getTitle());
+            result.putExtra("task_title",       newTask.getTitre());
             result.putExtra("task_description", newTask.getDescription());
-            result.putExtra("task_severity",    newTask.getSeverity().name());
+            result.putExtra("task_severity",    newTask.getSeverite().name());
             result.putExtra("task_date_debut",  newTask.getDateDebut().toString());
             result.putExtra("task_date_fin",    newTask.getDateFin().toString());
             result.putExtra("task_tags",        newTask.getTags());
