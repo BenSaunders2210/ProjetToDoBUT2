@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#F0F0F5">
 
-    <!-- White card container -->
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
         android:layout_width="0dp"
@@ -32,7 +31,6 @@
 
             <!-- Titre -->
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Titre"
@@ -45,14 +43,19 @@
                 android:layout_height="42dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
-                android:ems="10"
+                android:background="@null"
                 android:inputType="text"
                 android:textColor="#000000"
                 android:textSize="14sp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:background="#BDBDBD" />
+
             <!-- Description -->
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Description"
@@ -65,32 +68,44 @@
                 android:layout_height="42dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
-                android:ems="10"
+                android:background="@null"
                 android:inputType="text"
                 android:textSize="14sp" />
 
-            <!-- Date -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:background="#BDBDBD" />
+
+            <!-- Date — bouton qui ouvre un DatePickerDialog -->
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textColor="#212121"
                 android:textSize="14sp" />
 
-            <EditText
+            <Button
                 android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
-                android:ems="10"
-                android:inputType="date"
+                android:background="@null"
+                android:gravity="start|center_vertical"
+                android:text="Sélectionner une date"
+                android:textColor="#9E9E9E"
                 android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:background="#BDBDBD" />
 
             <!-- Sévérité -->
             <TextView
-                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sévérité"
@@ -106,9 +121,14 @@
                 android:background="@android:drawable/btn_dropdown"
                 android:textSize="14sp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:background="#BDBDBD" />
+
             <!-- Tags -->
             <TextView
-                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tags"
@@ -121,12 +141,18 @@
                 android:layout_height="42dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
-                android:ems="10"
+                android:background="@null"
                 android:hint="sport,travail,amis..etc"
                 android:inputType="text"
                 android:textSize="14sp" />
 
-            <!-- Ajouter button -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="32dp"
+                android:background="#BDBDBD" />
+
+            <!-- Ajouter -->
             <Button
                 android:id="@+id/btn_ajout"
                 android:layout_width="236dp"

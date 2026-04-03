@@ -22,6 +22,8 @@ import java.util.Set;
 
 public class TaskListActivity extends Activity {
 
+    private static final int REQUEST_CREATE_TASK = 1;
+
     private ArrayList<Task> tasks = new ArrayList<>();
     private ArrayList<Task> filteredTasks = new ArrayList<>();
     private Adapter adapter;
@@ -63,11 +65,11 @@ public class TaskListActivity extends Activity {
         updateButtonState(btnMoyen,  false, "#FFA726");
         updateButtonState(btnUrgent, false, "#EF5350");
 
-        // Bouton ajouter
+        // Bouton ajouter — utilise startActivityForResult pour récupérer la tâche créée
         Button btnAddTask = findViewById(R.id.btn_add_task);
         btnAddTask.setOnClickListener(v -> {
             Intent intent = new Intent(TaskListActivity.this, TaskCreateActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CREATE_TASK);
         });
 
         // Adapter sur filteredTasks (pas tasks directement)
@@ -93,6 +95,24 @@ public class TaskListActivity extends Activity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    // Reçoit la nouvelle tâche créée dans TaskCreateActivity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CREATE_TASK && resultCode == RESULT_OK && data != null) {
+            String title        = data.getStringExtra("task_title");
+            String description  = data.getStringExtra("task_description");
+            Severity severity   = Severity.valueOf(data.getStringExtra("task_severity"));
+            LocalDate dateDebut = LocalDate.parse(data.getStringExtra("task_date_debut"));
+            LocalDate dateFin   = LocalDate.parse(data.getStringExtra("task_date_fin"));
+            String[] tags       = data.getStringArrayExtra("task_tags");
+
+            tasks.add(new Task(title, description, severity, dateDebut, dateFin, tags));
+            applyFilters(); // reapply so the new task respects active filters
+        }
     }
 
     // --- Logique de filtre ---
