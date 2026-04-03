@@ -11,51 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- NAVBAR HAUT -->
-        <LinearLayout
+        <HorizontalScrollView
             android:id="@+id/topNav"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
             android:background="@drawable/nav_background"
             android:elevation="4dp"
+            android:padding="10dp"
+            android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                android:background="@drawable/btn_rounded_blue"
-                android:text="Loisir"
-                android:textColor="@android:color/white"
-                android:textSize="13sp"/>
+            <LinearLayout
+                android:id="@+id/tags_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp" />
+        </HorizontalScrollView>
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                android:background="@drawable/btn_rounded_blue"
-                android:text="Travail"
-                android:textColor="@android:color/white"
-                android:textSize="13sp"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="4dp"
-                android:background="@drawable/btn_rounded_blue"
-                android:text="Perso"
-                android:textColor="@android:color/white"
-                android:textSize="13sp"/>
-        </LinearLayout>
-
-        <!-- ZONE VIDE (no tasks) -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/no_tasks"
             android:layout_width="0dp"
@@ -102,7 +78,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- LISTE DES TÂCHES -->
         <ListView
             android:id="@+id/task_list"
             android:layout_width="0dp"
@@ -118,7 +93,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- BOUTON + -->
         <Button
             android:id="@+id/btn_add_task"
             android:layout_width="64dp"
@@ -132,7 +106,6 @@
             app:layout_constraintBottom_toTopOf="@id/bottomNav"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- NAVBAR BAS — boutons de filtre avec IDs -->
         <LinearLayout
             android:id="@+id/bottomNav"
             android:layout_width="0dp"

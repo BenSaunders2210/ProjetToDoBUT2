@@ -22,7 +22,7 @@ import java.util.Calendar;
  */
 public class TaskCreateActivity extends Activity {
 
-    // Stores the date chosen by the user
+    // Sauvegarde la date choisi par l'utilisateur
     private LocalDate selectedDate = null;
 
     @Override
@@ -40,11 +40,10 @@ public class TaskCreateActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        // --- Date picker button ---
+        // --- Date button ---
         Button btnDate = findViewById(R.id.date);
         btnDate.setOnClickListener(v -> {
             Calendar cal = Calendar.getInstance();
-            // Pre-fill with already selected date if available
             int year  = selectedDate != null ? selectedDate.getYear()       : cal.get(Calendar.YEAR);
             int month = selectedDate != null ? selectedDate.getMonthValue() - 1 : cal.get(Calendar.MONTH);
             int day   = selectedDate != null ? selectedDate.getDayOfMonth() : cal.get(Calendar.DAY_OF_MONTH);
@@ -78,15 +77,15 @@ public class TaskCreateActivity extends Activity {
                 return;
             }
 
-            // Severity: spinner position maps to HIGH / MEDIUM / LOW
+
             Severity severity;
             switch (spinner.getSelectedItemPosition()) {
-                case 0:  severity = Severity.HIGH;   break;
+                case 0:  severity = Severity.LOW;   break;
                 case 1:  severity = Severity.MEDIUM; break;
-                default: severity = Severity.LOW;    break;
+                default: severity = Severity.HIGH;    break;
             }
 
-            // Tags: split by comma, trim each entry
+
             String[] tags;
             if (tagsStr.isEmpty()) {
                 tags = new String[]{};
@@ -98,7 +97,7 @@ public class TaskCreateActivity extends Activity {
                 }
             }
 
-            // Build the Task and send it back to TaskListActivity
+
             Task newTask = new Task(titre, description, severity, LocalDate.now(), selectedDate, tags);
 
             Intent result = new Intent();
@@ -111,6 +110,7 @@ public class TaskCreateActivity extends Activity {
 
             setResult(RESULT_OK, result);
             finish();
+
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.parent_layout), (v, insets) -> {

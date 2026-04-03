@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Launch TaskListActivity immediately
+
         Intent intent = new Intent(this, TaskListActivity.class);
         startActivity(intent);
-        finish(); // prevents going back to a blank MainActivity
+        finish();
     }
 
 }
