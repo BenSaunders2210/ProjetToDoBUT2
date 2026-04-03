@@ -3,14 +3,10 @@ package com.iut.projettodobut2;
 import android.app.Activity;
 import android.os.Bundle;
 
-/**
- *
- * @author Saunders Benjamin, Maillard Jeremie
- */
-public class TaskCreateActivity extends Activity {
+public class TaskEditActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Blank for now — layout to be added later
     }
-
 }
