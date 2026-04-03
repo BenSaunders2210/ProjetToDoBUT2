@@ -14,6 +14,7 @@
         <activity
             android:name=".TaskListActivity"
 
+
             android:exported="true"
             android:theme="@style/Theme.ProjetToDoBUT2">
             <intent-filter>
@@ -22,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TaskCreateActivity" />
+        <activity android:name=".TaskEditActivity" />
     </application>
 
 </manifest>

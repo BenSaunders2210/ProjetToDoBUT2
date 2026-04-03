@@ -53,7 +53,7 @@
         <!-- BOUTON + -->
 
         <Button
-            android:id="@+id/fab"
+            android:id="@+id/btn_add_task"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="16dp"
