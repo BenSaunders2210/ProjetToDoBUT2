@@ -2,6 +2,8 @@ package com.iut.projettodobut2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,11 +17,20 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class TaskListActivity extends Activity {
+
     private ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> filteredTasks = new ArrayList<>();
     private Adapter adapter;
     private ListView list;
+
+    // Filtres actifs (aucun actif par défaut)
+    private Set<Severity> activeFilters = EnumSet.noneOf(Severity.class);
+
+    private Button btnFaible, btnMoyen, btnUrgent;
 
     private float touchStartX, touchStartY;
     private static final int SWIPE_THRESHOLD = 80;
@@ -38,18 +49,35 @@ public class TaskListActivity extends Activity {
         ConstraintLayout noTasks = findViewById(R.id.no_tasks);
         list.setEmptyView(noTasks);
 
-        Button btnAddTask = (Button) findViewById(R.id.btn_add_task);
+        // Boutons de filtre sévérité (navbar bas)
+        btnFaible = findViewById(R.id.btn_filter_low);
+        btnMoyen  = findViewById(R.id.btn_filter_medium);
+        btnUrgent = findViewById(R.id.btn_filter_high);
 
+        btnFaible.setOnClickListener(v -> toggleFilter(Severity.LOW,    btnFaible));
+        btnMoyen .setOnClickListener(v -> toggleFilter(Severity.MEDIUM, btnMoyen));
+        btnUrgent.setOnClickListener(v -> toggleFilter(Severity.HIGH,   btnUrgent));
+
+        // Apparence initiale (tous grisés)
+        updateButtonState(btnFaible, false, "#66BB6A");
+        updateButtonState(btnMoyen,  false, "#FFA726");
+        updateButtonState(btnUrgent, false, "#EF5350");
+
+        // Bouton ajouter
+        Button btnAddTask = findViewById(R.id.btn_add_task);
         btnAddTask.setOnClickListener(v -> {
             Intent intent = new Intent(TaskListActivity.this, TaskCreateActivity.class);
             startActivity(intent);
         });
 
-        adapter = new Adapter(this, tasks, new Adapter.SwipeActionListener() {
+        // Adapter sur filteredTasks (pas tasks directement)
+        applyFilters();
+        adapter = new Adapter(this, filteredTasks, new Adapter.SwipeActionListener() {
             @Override
             public void onDelete(int position) {
-                tasks.remove(position);
-                adapter.notifyDataSetChanged();
+                Task toRemove = filteredTasks.get(position);
+                tasks.remove(toRemove);
+                applyFilters();
             }
             @Override
             public void onEdit(int position) {
@@ -67,7 +95,68 @@ public class TaskListActivity extends Activity {
         });
     }
 
-    // Intercept ALL touches at the Activity level — before any view sees them
+    // --- Logique de filtre ---
+
+    private void toggleFilter(Severity severity, Button btn) {
+        String color;
+        switch (severity) {
+            case LOW:    color = "#66BB6A"; break;
+            case MEDIUM: color = "#FFA726"; break;
+            case HIGH:
+            default:     color = "#EF5350"; break;
+        }
+
+        if (activeFilters.contains(severity)) {
+            activeFilters.remove(severity);
+            updateButtonState(btn, false, color);
+        } else {
+            activeFilters.add(severity);
+            updateButtonState(btn, true, color);
+        }
+
+        applyFilters();
+    }
+
+    private void applyFilters() {
+        filteredTasks.clear();
+        if (activeFilters.isEmpty()) {
+            // Aucun filtre actif = tout afficher
+            filteredTasks.addAll(tasks);
+        } else {
+            for (Task task : tasks) {
+                if (activeFilters.contains(task.getSeverity())) {
+                    filteredTasks.add(task);
+                }
+            }
+        }
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    /** Applique un style actif (coloré) ou inactif (grisé) au bouton */
+    private void updateButtonState(Button btn, boolean active, String activeColor) {
+        GradientDrawable bg = new GradientDrawable();
+        bg.setShape(GradientDrawable.RECTANGLE);
+        bg.setCornerRadius(dpToPx(18));
+        if (active) {
+            bg.setColor(Color.parseColor(activeColor));
+            btn.setTextColor(Color.WHITE);
+            btn.setAlpha(1.0f);
+        } else {
+            bg.setColor(Color.parseColor("#BDBDBD"));
+            btn.setTextColor(Color.parseColor("#757575"));
+            btn.setAlpha(0.7f);
+        }
+        btn.setBackground(bg);
+    }
+
+    private float dpToPx(int dp) {
+        return dp * getResources().getDisplayMetrics().density;
+    }
+
+    // --- Gestion du swipe ---
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -99,9 +188,7 @@ public class TaskListActivity extends Activity {
     private int getPositionForPoint(int x, int y) {
         int[] listLocation = new int[2];
         list.getLocationOnScreen(listLocation);
-
         int localY = y - listLocation[1];
-
         for (int idx = 0; idx < list.getChildCount(); idx++) {
             View child = list.getChildAt(idx);
             if (child != null && localY >= child.getTop() && localY <= child.getBottom()) {

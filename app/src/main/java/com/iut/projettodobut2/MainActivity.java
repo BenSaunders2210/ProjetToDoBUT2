@@ -18,7 +18,7 @@ import java.time.LocalDate;
  * @author Saunders Benjamin, Maillard Jeremie
  */
 public class MainActivity extends AppCompatActivity {
-        private Task[] taskList = {new Task("Aller à l'école", "BUS 1 à 7h20 à République", Severity.LOW, LocalDate.of(2026, 3, 31), LocalDate.of(2026, 4, 1), new String[]{""})};
+    private Task[] taskList = {new Task("Aller à l'école", "BUS 1 à 7h20 à République", Severity.LOW, LocalDate.of(2026, 3, 31), LocalDate.of(2026, 4, 1), new String[]{""})};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
